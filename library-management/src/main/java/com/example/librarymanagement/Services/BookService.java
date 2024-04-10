@@ -8,22 +8,35 @@ import org.springframework.stereotype.Service;
 import com.example.librarymanagement.Entities.Book;
 import com.example.librarymanagement.Repositories.BookRepository;
 
+/**
+ * Service class for managing book-related operations.
+ */
 @Service
 public class BookService {
+    // Autowire BookRepository for database operations related to books
     @Autowired
     private final BookRepository bookRepository;
 
-    // Constructor injection of BookRepository
+    /**
+     * Constructor for BookService.
+     * @param bookRepository The repository for accessing book data.
+     */
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
     
-    // Method to add a new book
+    /**
+     * Method to add a new book.
+     * @param book The book object to add.
+     */
     public void addBook(Book book) {
         bookRepository.save(book);
     }
 
-    // Method to delete a book by its ID
+    /**
+     * Method to delete a book by its ID.
+     * @param id The ID of the book to delete.
+     */
     public void deleteBook(Long id) {
         if (id != null && id > 0) {
             bookRepository.deleteById(id);
@@ -32,17 +45,29 @@ public class BookService {
         }
     }
 
-    // Method to retrieve a book by its ID
+    /**
+     * Method to retrieve a book by its ID.
+     * @param id The ID of the book to retrieve.
+     * @return The book object if found, otherwise null.
+     */
     public Book getBook(Long id) {
         return bookRepository.findById(id).orElse(null);
     }
 
-    // Method to retrieve all books
+    /**
+     * Method to retrieve all books.
+     * @return ArrayList containing all books.
+     */
     public ArrayList<Book> getBooks() {
         return new ArrayList<>(bookRepository.findAll());
     }
 
-    // Method to update an existing book
+    /**
+     * Method to update an existing book.
+     * @param id The ID of the book to update.
+     * @param book The updated book object.
+     * @return The updated book object if successful, otherwise null.
+     */
     public Book updateBook(Long id, Book book) {
         Book existingBook = bookRepository.findById(id).orElse(null);
         if (existingBook != null) {

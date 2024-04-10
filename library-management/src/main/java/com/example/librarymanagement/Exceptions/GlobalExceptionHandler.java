@@ -14,10 +14,17 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Global exception handler to handle specific exceptions and provide appropriate error responses.
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
     
-    // Exception handler for ResourceNotFoundException
+    /**
+     * Exception handler for ResourceNotFoundException.
+     * @param ex The ResourceNotFoundException instance.
+     * @return ResponseEntity containing the error response with HTTP status 404 (Not Found).
+     */
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException ex) {
         // Create an ErrorResponse object with HTTP status 404 (Not Found) and the provided error message
@@ -26,7 +33,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    // Exception handler for MethodArgumentNotValidException (used for request validation errors)
+    /**
+     * Exception handler for MethodArgumentNotValidException (used for request validation errors).
+     * @param ex The MethodArgumentNotValidException instance.
+     * @return ResponseEntity containing the error response with HTTP status 400 (Bad Request).
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {

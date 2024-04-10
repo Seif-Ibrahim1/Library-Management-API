@@ -1,7 +1,5 @@
 package com.example.librarymanagement.Controllers;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +10,11 @@ import com.example.librarymanagement.Entities.Book;
 import com.example.librarymanagement.Services.BookService;
 
 import jakarta.validation.Valid;
+import java.util.ArrayList;
 
+/**
+ * Controller class for managing book-related endpoints.
+ */
 @RestController
 @RequestMapping("/api/books")
 @Validated
@@ -21,12 +23,19 @@ public class BookController {
     @Autowired
     private final BookService bookService;
     
-    // Constructor injection for BookService
+    /**
+     * Constructor for BookController.
+     * @param bookService The service for managing book-related operations.
+     */
+    
     public BookController(BookService bookService) {
         this.bookService = bookService;
     }
 
-    // Handler for HTTP GET request to retrieve all books
+    /**
+     * Handler for HTTP GET request to retrieve all books.
+     * @return ResponseEntity with list of books and HTTP status OK.
+     */
     @GetMapping()
     public ResponseEntity<ArrayList<Book>> getBooks() {
         // Retrieve list of books from BookService
@@ -35,7 +44,11 @@ public class BookController {
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
-    // Handler for HTTP GET request to retrieve a specific book by ID
+    /**
+     * Handler for HTTP GET request to retrieve a specific book by ID.
+     * @param id The ID of the book to retrieve.
+     * @return ResponseEntity with the retrieved book and HTTP status OK, or NOT_FOUND if book is not found.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Book> getBook(@PathVariable Long id) {
         // Retrieve the book with the given ID from BookService
@@ -50,7 +63,11 @@ public class BookController {
         }
     }
 
-    // Handler for HTTP POST request to add a new book
+    /**
+     * Handler for HTTP POST request to add a new book.
+     * @param book The book object to add.
+     * @return ResponseEntity with the added book and HTTP status CREATED.
+     */
     @PostMapping()
     public ResponseEntity<Book> addBook(@Valid @RequestBody Book book) {
         // Add the new book using BookService
@@ -59,7 +76,12 @@ public class BookController {
         return new ResponseEntity<>(book, HttpStatus.CREATED);
     }
 
-    // Handler for HTTP PUT request to update an existing book
+    /**
+     * Handler for HTTP PUT request to update an existing book.
+     * @param id The ID of the book to update.
+     * @param book The updated book object.
+     * @return ResponseEntity with the updated book and HTTP status OK, or NOT_FOUND if book is not found.
+     */
     @PutMapping("/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book book) {
         // Update the book with the given ID using BookService
@@ -74,7 +96,11 @@ public class BookController {
         }
     }
 
-    // Handler for HTTP DELETE request to delete a book by ID
+    /**
+     * Handler for HTTP DELETE request to delete a book by ID.
+     * @param id The ID of the book to delete.
+     * @return ResponseEntity with HTTP status NO_CONTENT indicating successful deletion.
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
         // Delete the book with the given ID using BookService
