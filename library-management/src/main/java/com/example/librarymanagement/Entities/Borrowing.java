@@ -12,7 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
+import jakarta.validation.constraints.NotNull;
 /**
  * Represents a borrowing record in the library management system.
  */
@@ -26,11 +26,13 @@ public class Borrowing {
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
     @JsonIgnoreProperties("borrowings")
+    @NotNull(message = "Book is required")
     private Book book;
 
     @ManyToOne
     @JoinColumn(name = "patron_id", nullable = false)
     @JsonIgnoreProperties("borrowings")
+    @NotNull(message = "Patron is required")
     private Patron patron;
 
     @Column(name = "borrow_date", nullable = false)
@@ -38,7 +40,6 @@ public class Borrowing {
 
     @Column(name = "return_date")
     private LocalDate returnDate;
-
     /**
      * Default constructor.
      */

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.example.librarymanagement.Entities.Book;
 import com.example.librarymanagement.Entities.Borrowing;
 import com.example.librarymanagement.Entities.Patron;
+import com.example.librarymanagement.Exceptions.ResourceNotFoundException;
 import com.example.librarymanagement.Repositories.BorrowingRepository;
 import com.example.librarymanagement.Repositories.BookRepository;
 import com.example.librarymanagement.Repositories.PatronRepository;
@@ -43,9 +44,9 @@ public class BorrowingService {
      */
     public void borrowBook(Long bookId, Long patronId) {
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new RuntimeException("Book not found with id: " + bookId));
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found with id: " + bookId));
         Patron patron = patronRepository.findById(patronId)
-                .orElseThrow(() -> new RuntimeException("Patron not found with id: " + patronId));
+                .orElseThrow(() -> new ResourceNotFoundException("Patron not found with id: " + patronId));
 
         Borrowing borrowing = new Borrowing();
         borrowing.setBook(book);
@@ -65,7 +66,7 @@ public class BorrowingService {
             borrowing.setReturnDate(LocalDate.now());
             borrowingRepository.save(borrowing);
         } else {
-            throw new RuntimeException("Borrowing not found for bookId: " + bookId + " and patronId: " + patronId);
+            throw new ResourceNotFoundException("Borrowing not found for bookId: " + bookId + " and patronId: " + patronId);
         }
     }
 }

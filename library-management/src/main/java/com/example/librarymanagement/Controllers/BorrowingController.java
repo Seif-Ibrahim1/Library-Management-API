@@ -1,5 +1,7 @@
 package com.example.librarymanagement.Controllers;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,23 +30,25 @@ public class BorrowingController {
      * Endpoint for a patron to borrow a book.
      * @param bookId The ID of the book to be borrowed.
      * @param patronId The ID of the patron borrowing the book.
-     * @return ResponseEntity with a message indicating successful borrowing.
+     * @return ResponseEntity with a JSON object containing the message indicating successful borrowing.
      */
     @PostMapping("/borrow/{bookId}/patron/{patronId}")
-    public ResponseEntity<String> borrowBook(@PathVariable Long bookId, @PathVariable Long patronId) {
+    public ResponseEntity<Object> borrowBook(@PathVariable Long bookId, @PathVariable Long patronId) {
         borrowingService.borrowBook(bookId, patronId);
-        return new ResponseEntity<>("Book borrowed successfully", HttpStatus.CREATED);
+        // Create a JSON object with the message
+        return new ResponseEntity<>(Map.of("message", "Book borrowed successfully"), HttpStatus.CREATED);
     }
 
     /**
      * Endpoint for a patron to return a borrowed book.
      * @param bookId The ID of the book to be returned.
      * @param patronId The ID of the patron returning the book.
-     * @return ResponseEntity with a message indicating successful return.
+     * @return ResponseEntity with a JSON object containing the message indicating successful return.
      */
     @PutMapping("/return/{bookId}/patron/{patronId}")
-    public ResponseEntity<String> returnBook(@PathVariable Long bookId, @PathVariable Long patronId) {
+    public ResponseEntity<Object> returnBook(@PathVariable Long bookId, @PathVariable Long patronId) {
         borrowingService.returnBook(bookId, patronId);
-        return new ResponseEntity<>("Book returned successfully", HttpStatus.OK);
+        // Create a JSON object with the message
+        return new ResponseEntity<>(Map.of("message", "Book returned successfully"), HttpStatus.OK);
     }
 }
