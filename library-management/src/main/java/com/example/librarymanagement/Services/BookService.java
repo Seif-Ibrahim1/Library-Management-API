@@ -13,14 +13,17 @@ public class BookService {
     @Autowired
     private final BookRepository bookRepository;
 
+    // Constructor injection of BookRepository
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
     
+    // Method to add a new book
     public void addBook(Book book) {
         bookRepository.save(book);
     }
 
+    // Method to delete a book by its ID
     public void deleteBook(Long id) {
         if (id != null && id > 0) {
             bookRepository.deleteById(id);
@@ -29,14 +32,17 @@ public class BookService {
         }
     }
 
+    // Method to retrieve a book by its ID
     public Book getBook(Long id) {
         return bookRepository.findById(id).orElse(null);
     }
 
+    // Method to retrieve all books
     public ArrayList<Book> getBooks() {
         return new ArrayList<>(bookRepository.findAll());
     }
 
+    // Method to update an existing book
     public Book updateBook(Long id, Book book) {
         Book existingBook = bookRepository.findById(id).orElse(null);
         if (existingBook != null) {
