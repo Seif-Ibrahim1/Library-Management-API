@@ -1,6 +1,5 @@
 package com.example.librarymanagement.Services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +18,8 @@ import java.time.LocalDate;
  */
 @Service
 public class BorrowingService {
-    @Autowired
     private final BorrowingRepository borrowingRepository;
-    @Autowired
     private final BookRepository bookRepository;
-    @Autowired
     private final PatronRepository patronRepository;
 
     /**

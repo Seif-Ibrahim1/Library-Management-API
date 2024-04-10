@@ -2,7 +2,6 @@ package com.example.librarymanagement.Services;
 
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.librarymanagement.Entities.Book;
@@ -13,8 +12,6 @@ import com.example.librarymanagement.Repositories.BookRepository;
  */
 @Service
 public class BookService {
-    // Autowire BookRepository for database operations related to books
-    @Autowired
     private final BookRepository bookRepository;
 
     /**

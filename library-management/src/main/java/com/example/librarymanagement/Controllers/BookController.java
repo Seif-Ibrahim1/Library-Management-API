@@ -1,6 +1,5 @@
 package com.example.librarymanagement.Controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,8 +18,6 @@ import java.util.ArrayList;
 @RequestMapping("/api/books")
 @Validated
 public class BookController {
-    // Autowire BookService to handle business logic related to books
-    @Autowired
     private final BookService bookService;
     
     /**

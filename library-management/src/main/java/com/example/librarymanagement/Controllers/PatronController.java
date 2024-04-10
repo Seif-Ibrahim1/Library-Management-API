@@ -1,6 +1,5 @@
 package com.example.librarymanagement.Controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,8 +18,6 @@ import java.util.List;
 @RequestMapping("/api/patrons")
 @Validated
 public class PatronController {
-    // Autowire PatronService to handle business logic related to patrons
-    @Autowired
     private final PatronService patronService;
 
     /**

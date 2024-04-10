@@ -2,7 +2,6 @@ package com.example.librarymanagement.Services;
 
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.librarymanagement.Entities.Patron;
@@ -13,8 +12,6 @@ import com.example.librarymanagement.Repositories.PatronRepository;
  */
 @Service
 public class PatronService {
-    // Autowire PatronRepository for database operations related to patrons
-    @Autowired
     private final PatronRepository patronRepository;
 
     /**
