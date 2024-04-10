@@ -2,6 +2,7 @@ package com.example.librarymanagement.Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.librarymanagement.Entities.Book;
 import com.example.librarymanagement.Entities.Borrowing;
@@ -42,6 +43,7 @@ public class BorrowingService {
      * @param bookId The ID of the book to borrow.
      * @param patronId The ID of the patron borrowing the book.
      */
+    @Transactional // Apply @Transactional annotation to the method
     public void borrowBook(Long bookId, Long patronId) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new ResourceNotFoundException("Book not found with id: " + bookId));
@@ -60,6 +62,7 @@ public class BorrowingService {
      * @param bookId The ID of the book to return.
      * @param patronId The ID of the patron returning the book.
      */
+    @Transactional // Apply @Transactional annotation to the method
     public void returnBook(Long bookId, Long patronId) {
         Borrowing borrowing = borrowingRepository.findByBookIdAndPatronId(bookId, patronId);
         if (borrowing != null) {
