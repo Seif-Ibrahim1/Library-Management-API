@@ -2,6 +2,8 @@ package com.example.librarymanagement.Entities;
 
 import java.util.List;
 
+import org.hibernate.validator.constraints.ISBN;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -34,6 +36,7 @@ public class Book {
     private Integer publicationYear;
 
     @NotBlank
+    @ISBN(type = ISBN.Type.ANY)
     private String isbn;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
