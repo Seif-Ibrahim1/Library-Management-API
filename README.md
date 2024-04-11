@@ -21,6 +21,9 @@ This is a Library Management System API built using Spring Boot. It allows libra
 
 - **Unit Tests**: The functionality of API endpoints is validated through unit tests. Testing frameworks like JUnit, Mockito, and SpringBootTest are used for testing to ensure that each endpoint behaves as expected.
 
+### Caching
+
+- **Spring Caching Mechanisms**: Spring's caching mechanisms are utilized to cache frequently accessed data, such as book details or patron information, improving system performance.
 
 ### Book Management
 
