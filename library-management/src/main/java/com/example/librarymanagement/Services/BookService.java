@@ -2,6 +2,7 @@ package com.example.librarymanagement.Services;
 
 import java.util.ArrayList;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.librarymanagement.Entities.Book;
@@ -55,6 +56,7 @@ public class BookService {
      * Method to retrieve all books.
      * @return ArrayList containing all books.
      */
+    @Cacheable("books")
     public ArrayList<Book> getBooks() {
         return new ArrayList<>(bookRepository.findAll());
     }
