@@ -2,6 +2,7 @@ package com.example.librarymanagement.Services;
 
 import java.util.ArrayList;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.librarymanagement.Entities.Patron;
@@ -55,6 +56,7 @@ public class PatronService {
      * Method to retrieve all patrons.
      * @return ArrayList containing all patrons.
      */
+    @Cacheable("patrons")
     public ArrayList<Patron> getAllPatrons() {
         return new ArrayList<>(patronRepository.findAll());
     }

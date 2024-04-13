@@ -2,6 +2,9 @@ package com.example.librarymanagement.Entities;
 
 import java.util.List;
 
+import org.hibernate.validator.constraints.ISBN;
+
+import com.example.librarymanagement.validators.ValidPublicationYear;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -13,7 +16,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
 /**
  * Represents a book in the library management system.
  */
@@ -31,9 +33,12 @@ public class Book {
     private String author;
 
     @NotNull
+
+    @ValidPublicationYear
     private Integer publicationYear;
 
     @NotBlank
+    @ISBN(type = ISBN.Type.ANY)
     private String isbn;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
