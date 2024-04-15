@@ -1,13 +1,20 @@
 package com.example.librarymanagement.Controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AccountStatusException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.librarymanagement.Entities.Book;
 import com.example.librarymanagement.Services.BookService;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.validation.Valid;
 import java.util.ArrayList;
 
@@ -35,8 +42,15 @@ public class BookController {
      */
     @GetMapping()
     public ResponseEntity<ArrayList<Book>> getBooks() {
+        System.out.println("Get all books");
         // Retrieve list of books from BookService
-        ArrayList<Book> books = bookService.getBooks();
+        ArrayList<Book> books = null;
+        try {
+            books = bookService.getBooks();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        
         // Return list of books with HTTP status OK
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
@@ -104,5 +118,51 @@ public class BookController {
         bookService.deleteBook(id);
         // Return HTTP status NO_CONTENT indicating successful deletion
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ProblemDetail handleSecurityException(Exception exception) {
+        ProblemDetail errorDetail = null;
+        System.out.println("Error: " + exception.getMessage());
+
+        if (exception instanceof BadCredentialsException) {
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(401), exception.getMessage());
+            errorDetail.setProperty("description", "The username or password is incorrect");
+            System.out.println("Error: " + exception.getMessage());
+
+            return errorDetail;
+        }
+
+        if (exception instanceof AccountStatusException) {
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
+            errorDetail.setProperty("description", "The account is locked");
+            System.out.println("Error: " + exception.getMessage());
+        }
+
+        if (exception instanceof AccessDeniedException) {
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
+            errorDetail.setProperty("description", "You are not authorized to access this resource");
+            System.out.println("Error: " + exception.getMessage());
+        }
+
+        if (exception instanceof SignatureException) {
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
+            errorDetail.setProperty("description", "The JWT signature is invalid");
+            System.out.println("Error: " + exception.getMessage());
+        }
+
+        if (exception instanceof ExpiredJwtException) {
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
+            errorDetail.setProperty("description", "The JWT token has expired");
+            System.out.println("Error: " + exception.getMessage());
+        }
+
+        if (errorDetail == null) {
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(500), exception.getMessage());
+            errorDetail.setProperty("description", "Unknown internal server error.");
+            System.out.println("Error: " + exception.getMessage());
+        }
+
+        return errorDetail;
     }
 }
